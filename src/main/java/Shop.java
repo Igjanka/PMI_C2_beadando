@@ -28,4 +28,11 @@ public class Shop
         this.Price = Price;
         this.Quantity = Quantity;
     }
+    @Override
+    public String toString() {
+        return "Product{" +
+                "name='" + Name + '\'' +
+                ", prize=" + Price +
+                ", quantity='" + Quantity + '}' + "\r\n";
+    }
 }

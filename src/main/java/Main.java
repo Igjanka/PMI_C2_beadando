@@ -33,18 +33,85 @@ public class Main {
             scanner.nextLine();
             switch (choice) {
                 case 1 -> listItems(shop);
-                //case 2 -> addNewItem(shop);
-                //case 3 -> modifyItem(shop);
-                //case 4 -> deleteItem(shop);
+                case 2 -> addNewItem(shop);
+                case 3 -> modifyItem(shop);
+                case 4 -> deleteItem(shop);
             }
             saveShopToXML(shop, "src/main/resources/shop.xml");
         }
     }
 
+    private static void deleteItem(ArrayList<Shop> shop) {
+        System.out.println("Enter the name of the product you want to delete:");
+        try{
+            shop.remove(findProduct(shop, scanner.nextLine()));
+        }
+        catch(IllegalArgumentException error2){
+            System.out.println(error2.getMessage());
+        }
+    }
+
+    private static void modifyItem(ArrayList<Shop> shop) {
+        System.out.println("Enter the product you want to modify:");
+        try{
+            Shop shop1 = findProduct(shop, scanner.nextLine());
+            shop.set(shop.indexOf(shop1), new Shop(shop1.getName(), inputPrice(), inputQuantity()));
+        }
+        catch(IllegalArgumentException error){
+            System.out.println(error.getMessage());
+        }
+    }
+
+    private static Shop findProduct(ArrayList<Shop> shop, String lookinfor) throws IllegalArgumentException{
+        for(Shop shops : shop){
+            if(shops.getName().equals(lookinfor)){
+                return shops;
+            }
+        }
+        throw new IllegalArgumentException("No such item found.");
+    }
+
+    private static void addNewItem(ArrayList<Shop> shop) {
+        shop.add(new Shop(inputName(), inputPrice(), inputQuantity()));
+    }
+
+    private static int inputQuantity() {
+        int qnt;
+        System.out.println("Enter the quantity of the new product:\r\n(Must be greater than 0)");
+        qnt = scanner.nextInt();
+        while(qnt <= 0) {
+            try {
+                return qnt;
+            } catch (InputMismatchException e) {
+                e.printStackTrace();
+            }
+        }
+        return qnt;
+    }
+
+    private static int inputPrice() {
+        int prz;
+        System.out.println("Enter the prize of the new product:\r\n(Must be greater than 0)");
+        prz = scanner.nextInt();
+        while(prz <= 0) {
+            try {
+                return prz;
+            } catch (InputMismatchException e) {
+                e.printStackTrace();
+            }
+        }
+        return prz;
+    }
+
+    private static String inputName() {
+        System.out.println("Enter the name of the new Product:");
+        return scanner.nextLine();
+    }
+
+
     private static void listItems(ArrayList<Shop> shop) {
         System.out.println(shop);
     }
-
 
     private static void saveShopToXML(ArrayList<Shop> shop, String filepath) {
         try {

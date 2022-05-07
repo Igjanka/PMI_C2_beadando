@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Shop>
     <Product>
-        <Name>Shampoo</Name> <!--String-->
-        <Price>1500</Price> <!--Integer-->
-        <Quantity>300</Quantity> <!--Integer-->
+        <Name>Shampoo</Name>
+        <Price>1500</Price>
+        <Quantity>300</Quantity>
     </Product>
     <Product>
-        <Name>cereal</Name> <!--String-->
-        <Price>2000</Price> <!--Integer-->
-        <Quantity>130</Quantity> <!--Integer-->
+        <Name>cereal</Name>
+        <Price>2000</Price>
+        <Quantity>130</Quantity>
     </Product>
     <Product>
-        <Name>Ice Cream</Name> <!--String-->
-        <Price>5000</Price> <!--Integer-->
-        <Quantity>500</Quantity> <!--Integer-->
+        <Name>Ice Cream</Name>
+        <Price>5000</Price>
+        <Quantity>500</Quantity>
     </Product>
     <Product>
         <Name>Ruler</Name>
-        <Price>320</Price> <!--Integer-->
-        <Quantity>10000</Quantity> <!--Integer-->
+        <Price>320</Price>
+        <Quantity>10000</Quantity>
     </Product>
 </Shop>
