@@ -14,12 +14,23 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
+
+    /**Main, where XML is read first, then it's given to the menu for the rest of the program.
+     * @param args
+     */
+
     public static void main(String[] args) {
-        ArrayList<Shop> Shop=readProductsFromXML("src/main/resources/shop.xml");
+        ArrayList<Shop> Shop = readProductsFromXML("src/main/resources/shop.xml");
         menu(Shop);
     }
+
+    /**Menu part of the program, where the user can choose to call a part of the program,
+     * ie. CRUD (Create, Read, Update, Delete)
+     * @param shop
+     */
 
     private static void menu(ArrayList<Shop> shop) {
         int choice = 0;
@@ -31,6 +42,7 @@ public class Main {
                 System.out.println("Not valid.");
             }
             scanner.nextLine();
+            //Switch operation to call different parts
             switch (choice) {
                 case 1 -> listItems(shop);
                 case 2 -> addNewItem(shop);
@@ -41,6 +53,11 @@ public class Main {
         }
     }
 
+    /**
+     * Part of CRUD,the Delete part, uses findProduct to locate the product based on it's name.
+     * @param shop
+     */
+
     private static void deleteItem(ArrayList<Shop> shop) {
         System.out.println("Enter the name of the product you want to delete:");
         try{
@@ -50,6 +67,11 @@ public class Main {
             System.out.println(error2.getMessage());
         }
     }
+    /**
+     * Part of CRUD,the Update part, uses findProduct to locate the product based on it's name.
+     * Also uses the input parts for the price and quantity, since name is already given.
+     * @param shop
+     */
 
     private static void modifyItem(ArrayList<Shop> shop) {
         System.out.println("Enter the product you want to modify:");
@@ -62,7 +84,15 @@ public class Main {
         }
     }
 
+    /**
+     * Forementioned findProduct program, return the item with the given name.
+     * @param shop
+     * @param lookinfor
+     * @return
+     * @throws IllegalArgumentException
+     */
     private static Shop findProduct(ArrayList<Shop> shop, String lookinfor) throws IllegalArgumentException{
+        //foreach
         for(Shop shops : shop){
             if(shops.getName().equals(lookinfor)){
                 return shops;
@@ -71,11 +101,20 @@ public class Main {
         throw new IllegalArgumentException("No such item found.");
     }
 
+    /**
+     * Quote on quote main, but for the CRUD's create. Uses three input programs to achieve its goal.
+     * @param shop
+     */
     private static void addNewItem(ArrayList<Shop> shop) {
         shop.add(new Shop(inputName(), inputPrice(), inputQuantity()));
     }
 
-    private static int inputQuantity() {
+    /**
+     * Input for Quantity. Makes sure it's an integer and greater than 0.
+     * Returns the new product's quantity.
+     * @return
+     */
+    private static int inputQuantity() throws InputMismatchException{
         int qnt;
         System.out.println("Enter the quantity of the new product:\r\n(Must be greater than 0)");
         qnt = scanner.nextInt();
@@ -86,38 +125,60 @@ public class Main {
                 e.printStackTrace();
             }
         }
-        return qnt;
+        throw new InputMismatchException("Not a number.");
     }
 
-    private static int inputPrice() {
+    /**
+     * Input for the Prize. Makes sure it's an integer and greater than 0.
+     * Returns the new product's prize.
+     * @return
+     */
+    private static int inputPrice() throws InputMismatchException{
         int prz;
-        System.out.println("Enter the prize of the new product:\r\n(Must be greater than 0)");
+        System.out.println("Enter the price of the new product:\r\n(Must be greater than 0)");
         prz = scanner.nextInt();
-        while(prz <= 0) {
-            try {
+        while(prz <= 0){
+            try{
                 return prz;
-            } catch (InputMismatchException e) {
+            }
+            catch(Exception e){
                 e.printStackTrace();
             }
         }
-        return prz;
+        throw new InputMismatchException("Not a number");
     }
 
+    /**
+     * Input for Name of the new product.
+     * Returns the new product's name.
+     * @return
+     */
     private static String inputName() {
         System.out.println("Enter the name of the new Product:");
         return scanner.nextLine();
     }
 
-
+    /**
+     * Print's the content of current shop.xml.
+     * @param shop
+     */
     private static void listItems(ArrayList<Shop> shop) {
         System.out.println(shop);
     }
 
+    /**
+     * This is the part of the program, which saves the updates to shop.xml.
+     * It's used after every menu interaction.
+     * @param shop
+     * @param filepath
+     */
     private static void saveShopToXML(ArrayList<Shop> shop, String filepath) {
         try {
+            //documentuilder to build the xml
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
             Element root = document.createElement("Shop");
             document.appendChild(root);
+            //foreach
             for (Shop shops : shop) {
                 Element gradeElement = document.createElement("Product");
                 root.appendChild(gradeElement);
@@ -125,6 +186,7 @@ public class Main {
                 childElement(document, gradeElement, "Price", String.valueOf(shops.getPrice()));
                 childElement(document, gradeElement, "Quantity", String.valueOf(shops.getQuantity()));
             }
+            //transformer
             TransformerFactory transformerFactory=TransformerFactory.newInstance();
             Transformer transformer=transformerFactory.newTransformer();
             DOMSource source=new DOMSource(document);
@@ -137,20 +199,37 @@ public class Main {
         }
     }
 
+    /**
+     * Creates child elements for saveShopToXML.
+     * @param document
+     * @param smth
+     * @param tag
+     * @param txt
+     */
     public static void childElement(Document document, Element smth, String tag, String txt){
         Element element=document.createElement(tag);
         element.setTextContent(txt);
         smth.appendChild(element);
     }
 
-    // XML reader //
+    /**
+     * Part of the program, which reads the xml file.
+     * Returns an arraylist.
+     * @param filepath
+     * @return
+     */
 
     private static ArrayList<Shop> readProductsFromXML(String filepath){
         ArrayList<Shop> shop=new ArrayList<>();
         try{
+
+            //documentbuilder and documentbuilderfactory in multi line configuration
+
             DocumentBuilderFactory documentBuilderFactory=DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder=documentBuilderFactory.newDocumentBuilder();
             Document document=documentBuilder.parse(filepath);
+
+            //creating root element
 
             Element rootElement=document.getDocumentElement();
             NodeList childNodeList=rootElement.getChildNodes();
@@ -166,6 +245,9 @@ public class Main {
                         Node childNodeOfShops=childNodesOfShop.item(j);
 
                         if(childNodeOfShops.getNodeType()==Node.ELEMENT_NODE){
+
+                            //switch case for the different xml handles.
+
                             switch (childNodeOfShops.getNodeName()){
                                 case "Name" -> name=childNodeOfShops.getTextContent();
                                 case "Price" -> price=childNodeOfShops.getTextContent();
