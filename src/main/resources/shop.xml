@@ -20,4 +20,9 @@
         <Price>320</Price>
         <Quantity>10000</Quantity>
     </Product>
+    <Product>
+        <Name>1</Name>
+        <Price>0</Price>
+        <Quantity>1</Quantity>
+    </Product>
 </Shop>

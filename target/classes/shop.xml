@@ -2,8 +2,8 @@
 <Shop>
     <Product>
         <Name>Shampoo</Name>
-        <Price>1500</Price>
-        <Quantity>300</Quantity>
+        <Price>12</Price>
+        <Quantity>7</Quantity>
     </Product>
     <Product>
         <Name>cereal</Name>
@@ -19,5 +19,10 @@
         <Name>Ruler</Name>
         <Price>320</Price>
         <Quantity>10000</Quantity>
+    </Product>
+    <Product>
+        <Name>1</Name>
+        <Price>0</Price>
+        <Quantity>1</Quantity>
     </Product>
 </Shop>

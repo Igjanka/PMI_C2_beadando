@@ -4,7 +4,7 @@ public class Shop
     private int Price;
     private int Quantity;
 
-    // set and get//
+    // setters and getters//
     public void setName(String name){
         this.Name = name;
     }
