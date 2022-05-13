@@ -15,6 +15,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
+/**Shop inventory program.
+ * You can add new products to the shop,
+ * modify the alredy existing ones,
+ * or delete them if you are out of stock.
+ * */
+
+
+
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
 
